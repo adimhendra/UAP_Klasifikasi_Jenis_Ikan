@@ -43,6 +43,16 @@ Proyek ini bertujuan sebagai studi komparatif model CNN serta contoh penerapan k
 ---
 
 ## 📂 Deskripsi Dataset
+
+sumber:
+```
+https://drive.google.com/drive/folders/1ivFJopBNevEjzg3-QdEMEzjHu3WxVNpG?usp=sharing
+```
+
+Dataset yang digunakan adalah Fish Image Dataset yang berisi citra ikan dari 8 kelas berbeda, yaitu Catfish, Glass Perchlet, Goby, Gourami, Grass Carp, Knifefish, Silver Barb, dan Tilapia.
+Dataset disusun dalam struktur direktori yang terpisah antara data latih (train), data validasi (val), dan data uji (test) untuk mendukung proses pelatihan dan evaluasi model.
+
+Setiap kelas direpresentasikan oleh ratusan citra dengan variasi sudut pandang, ukuran, dan kondisi pencahayaan.
 Dataset yang digunakan adalah **Fish Image Dataset** yang dibagi menjadi:
 ```
 FishImgDataset/
@@ -77,14 +87,37 @@ FishImgDataset/
 
 ## ⚙️ Data Preprocessing
 
-✔ Resize gambar ke **224×224**  
-✔ Normalisasi pixel  
-✔ Data Augmentation:
-- Rotation
-- Zoom
-- Horizontal Flip  
+Tahapan preprocessing disesuaikan dengan karakteristik masing-masing model deep learning yang digunakan, sebagai berikut:
 
-✔ Preprocessing khusus untuk EfficientNet (`preprocess_input`)
+## 🔹 1. CNN (Custom)
+Preprocessing pada model CNN custom dilakukan secara sederhana untuk memastikan kestabilan proses pelatihan, meliputi:
+- Resize gambar ke ukuran 224×224 piksel
+- Normalisasi piksel dengan skala 1./255
+- Data augmentation pada data latih:
+    - Rotasi gambar
+    - Zoom
+    - Horizontal flip
+      
+Pendekatan ini bertujuan untuk meningkatkan variasi data dan membantu model mempelajari pola visual dasar dari citra ikan.
+
+## 🔹 2. EfficientNetB0
+EfficientNetB0 menggunakan preprocessing khusus yang sesuai dengan model pretrained ImageNet, yaitu:
+- Resize gambar ke ukuran 224×224 piksel
+- Preprocessing menggunakan preprocess_input EfficientNet
+- Data augmentation ringan, seperti rotasi kecil dan zoom
+
+  Preprocessing ini memastikan distribusi data input sesuai dengan data yang digunakan saat pretraining, sehingga transfer learning dapat bekerja secara optimal.
+
+## 🔹 3. MobileNetV2
+Preprocessing untuk MobileNetV2 dirancang agar tetap ringan dan efisien, meliputi:
+- Resize gambar ke ukuran 224×224 piksel
+- Normalisasi piksel dengan skala 1./255
+- Data augmentation pada data latih:
+      - Rotasi
+      - Zoom
+      - Horizontal flip
+  
+Pendekatan ini mendukung performa tinggi MobileNetV2 dengan tetap menjaga efisiensi komputasi.
 
 ---
 
